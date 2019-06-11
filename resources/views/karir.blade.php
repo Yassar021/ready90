@@ -72,10 +72,10 @@
 										<li class="mega-menu-title"><a href="{{route('oto')}}"><div>Otomotif</div></a>
 											<ul>
 													<li><a href="{{route('motif', 'wuling')}}"><div>Wulings</div></a></li>
-													<li><a href="{{route('motif', 'masda')}}"><div>Mazda</div></a></li>
+													{{-- <li><a href="{{route('motif', 'masda')}}"><div>Mazda</div></a></li>
 													<li><a href="{{route('motif', 'honda')}}"><div>Honda</div></a></li>
 													<li><a href="{{route('motif', 'hyno')}}"><div>Hino</div></a></li>
-													<li><a href="{{route('motif', 'mercedes')}}"><div>Mercedez Benz</div></a></li>
+													<li><a href="{{route('motif', 'mercedes')}}"><div>Mercedez Benz</div></a></li> --}}
 											</ul>
 										</li>
 									</ul>

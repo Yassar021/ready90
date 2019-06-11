@@ -87,7 +87,7 @@
 												<li><a href="{{route('motif', 'wuling')}}">
 														<div>Wulings</div>
 													</a></li>
-												<li><a href="{{route('motif', 'masda')}}">
+												{{-- <li><a href="{{route('motif', 'masda')}}">
 														<div>Mazda</div>
 													</a></li>
 												<li><a href="{{route('motif', 'honda')}}">
@@ -98,7 +98,7 @@
 													</a></li>
 												<li><a href="{{route('motif', 'mercedes')}}">
 														<div>Mercedez Benz</div>
-													</a></li>
+													</a></li> --}}
 											</ul>
 										</li>
 									</ul>

@@ -70,10 +70,10 @@
 										<li class="mega-menu-title"><a href="{{route('oto')}}"><div>Otomotif</div></a>
 											<ul>
 													<li><a href="{{route('motif', 'wuling')}}"><div>Wulings</div></a></li>
-													<li><a href="{{route('motif', 'masda')}}"><div>Mazda</div></a></li>
+													{{-- <li><a href="{{route('motif', 'masda')}}"><div>Mazda</div></a></li>
 													<li><a href="{{route('motif', 'honda')}}"><div>Honda</div></a></li>
 													<li><a href="{{route('motif', 'hyno')}}"><div>Hino</div></a></li>
-													<li><a href="{{route('motif', 'mercedes')}}"><div>Mercedez Benz</div></a></li>
+													<li><a href="{{route('motif', 'mercedes')}}"><div>Mercedez Benz</div></a></li> --}}
 											</ul>
 										</li>
 									</ul>
@@ -239,7 +239,7 @@
 															</div>
 
 															<div class="col-md-6">
-																<p class="card-text"> <b>Mr. Erwin Tandiawan</b> <footer class="blockquote-footer">Director Handled Of Hino & Wuling.</footer></p>
+																<p class="card-text"> <b>Mr. Erwin Tandiawan</b> <footer class="blockquote-footer">President Director.</footer></p>
 															</div>
 														</div>
 													</div>
@@ -255,7 +255,7 @@
 															</div>
 
 															<div class="col-md-6">
-																<p class="card-text"> <b>Mr.  Erick Tandiawan</b> <footer class="blockquote-footer">Director Handled Of Mazda & Honda.</footer>	</p>
+																<p class="card-text"> <b>Mr.  Erick Tandiawan</b> <footer class="blockquote-footer">Director.</footer>	</p>
 															</div>
 														</div>
 													</div>
@@ -273,7 +273,7 @@
 															</div>
 
 															<div class="col-md-6">
-																<p class="card-text"> <b>Mr. Jody Kosasih </b> <footer class="blockquote-footer">Director Handled Of Mercedez Benz, Tata Motor, Property & Mining.</footer>																	</p>
+																<p class="card-text"> <b>Mr. Jody Kosasih </b> <footer class="blockquote-footer">Director.</footer>	</p>
 															</div>
 														</div>
 													</div>
@@ -289,7 +289,7 @@
 															</div>
 
 															<div class="col-md-6">
-																<p class="card-text"> <b>Mrs. Linda Wijaya </b> <footer class="blockquote-footer">CFO Finance Manager.</footer></p>
+																<p class="card-text"> <b>Mrs. Linda Wijaya </b> <footer class="blockquote-footer">Finance Director.</footer></p>
 															</div>
 														</div>
 													</div>
