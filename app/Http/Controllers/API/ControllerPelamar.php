@@ -1,0 +1,152 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Pelamar as TD;
+
+class ControllerPelamar extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return TD::where('verify', 0)->latest()->paginate(7);
+    }
+
+    public function index2()
+    {
+        return TD::where('verify', 1)->latest()->paginate(7);
+    }
+
+    public function count()
+    {
+        return TD::where('verify', 0)->count();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'hp' => 'required',
+            'foto' => 'required',
+            'cv' => 'required',
+            'pelamar' => 'required'
+        ]);
+
+        if($request->file('foto'))
+        {
+          $foto = $request->file('foto');
+          $fot = time().'.'.$foto->getClientOriginalExtension();
+          $foto->move(public_path().'/img/pelamar/', $fot); 
+        }
+
+        if($request->file('cv'))
+        {
+          $cv = $request->file('cv');
+          $cvr = rand(0,1000).time().'.'.$cv->getClientOriginalExtension();
+          $cv->move(public_path().'/img/pelamar/', $cvr); 
+        }
+
+        if($request->file('pelamar'))
+        {
+          $lamar = $request->file('pelamar');
+          $name = rand(1001,2000).time().'.'.$lamar->getClientOriginalExtension();
+          $lamar->move(public_path().'/img/pelamar/', $name); 
+        }
+
+        $data = TD::create([
+            'email' => $request['email'],
+            'nama' => $request['nama'],
+            'alamat' => $request['alamat'],
+            'hp' => $request['hp'],
+            'foto' => $fot,
+            'cv' => $cvr,
+            'pelamar' => $name,
+            'verify' => 0,
+        ]);
+
+        return back()->with('success', 'Wait For Approve!');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->middleware('auth:api');
+
+        $data = TD::findOrFail($id);
+        $data['verify'] = 1;
+        $data->save();
+        return [
+            'message' => 'sukses'
+        ];
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->middleware('auth:api');
+
+        $data = TD::findOrFail($id);
+        $data->delete();
+        return [
+            'message' => 'sukses'
+        ];
+    }
+}

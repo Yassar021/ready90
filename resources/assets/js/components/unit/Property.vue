@@ -1,0 +1,339 @@
+<template>
+  <div>
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row mt-2 mb-2">
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Property</h1>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <div class="col-lg-12 col-xs-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Add new</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <form @submit.prevent="editmode ? update() : create()" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label>Type</label>
+                  <input
+                    type="text"
+                    v-model="form.type"
+                    :class="{ 'is-invalid': form.errors.has('type') }"
+                    name="type"
+                    class="form-control"
+                  >
+                  <has-error :form="form" field="type"></has-error>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Nama</label>
+                      <input
+                        v-model="form.nama"
+                        type="text"
+                        name="nama"
+                        placeholder="Nama"
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.has('nama') }"
+                      >
+                      <has-error :form="form" field="nama"></has-error>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Name</label>
+                      <input
+                        v-model="form.name"
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.has('name') }"
+                      >
+                      <has-error :form="form" field="name"></has-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Input the image</label>
+                      <br>
+                      <input
+                        type="file"
+                        @change="upload"
+                        name="gambar"
+                        id="gambar"
+                        class="form-input"
+                      >
+                      <has-error :form="form" field="gambar"></has-error>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label>Alamat</label>
+                  <input
+                    type="text"
+                    v-model="form.alamat"
+                    :class="{ 'is-invalid': form.errors.has('alamat') }"
+                    name="alamat"
+                    class="form-control"
+                  >
+                  <has-error :form="form" field="alamat"></has-error>
+                </div>
+                <div class="form-group">
+                  <label>Telp</label>
+                  <input
+                    type="text"
+                    v-model="form.telp"
+                    :class="{ 'is-invalid': form.errors.has('telp') }"
+                    name="telp"
+                    class="form-control"
+                  >
+                  <has-error :form="form" field="telp"></has-error>
+                </div>
+                <button v-show="!editmode" type="submit" class="btn btn-primary mt-3">Save</button>
+                <button v-show="editmode" type="submit" class="btn btn-success mt-3">Update</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row mt-5">
+        <div class="col-lg-12 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="col-md-4"></div>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <br>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID</th>
+                  <th>Nama</th>
+                  <th>Type</th>
+                  <th>Gambar</th>
+                  <th>Alamat</th>
+                  <th>Telp</th>
+                  <th>Modify</th>
+                </tr>
+                <tr v-for="property in propertys.data" :key="property.id">
+                  <td>{{property.id}}</td>
+                  <td>{{property.nama}} / {{property.name}}</td>
+                  <td>{{property.type}}</td>
+                  <td>
+                    <img :src="'img/property/' + property.gambar" width="150px" alt>
+                  </td>
+                  <td>{{property.alamat}}</td>
+                  <td>{{property.telp}}</td>
+                  <td>
+                    <a
+                      @click="deleteproperty(property.id)"
+                      class="btn btn-social-icon btn-pinterest"
+                    >
+                      <i class="fa fa-trash red"></i>
+                    </a>
+                    <a @click="editproperty(property)" class="btn btn-social-icon btn-dropbox">
+                      <i class="fa fa-edit blue"></i>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="card-footer clearfix">
+              <pagination align="right" :data="propertys" @pagination-change-page="getResults"></pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      propertys: {},
+      editmode: false,
+      form: new Form({
+        id: "",
+        nama: "",
+        name: "",
+        type: "",
+        gambar: "",
+        alamat: "",
+        telp: ""
+      })
+    };
+  },
+  methods: {
+    load() {
+      axios.get("api/property").then(({ data }) => (this.propertys = data));
+    },
+    deleteproperty(id) {
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        // Send request to the server
+        if (result.value) {
+          this.form
+            .delete("api/property/" + id)
+            .then(() => {
+              swal("Deleted!", "Your file has been deleted.", "success");
+              Fire.$emit("AfterCreate");
+            })
+            .catch(() => {
+              swal("Failed!", "There was something wronge.", "warning");
+            });
+        }
+      });
+    },
+    getResults(page = 1) {
+      axios.get("api/property?page=" + page).then(response => {
+        this.propertys = response.data;
+      });
+    },
+    editproperty(property) {
+      this.form.reset();
+      this.form.fill(property);
+      this.editmode = true;
+    },
+    update() {
+      this.$Progress.start();
+      this.form
+        .put("api/property/" + this.form.id)
+        .then(() => {
+          $("#addNew").modal("hide");
+          swal("Updated!", "Information has been updated.", "success");
+          this.$Progress.finish();
+          Fire.$emit("AfterCreate");
+        })
+        .catch(() => {
+          this.$Progress.fail();
+        });
+    },
+    create() {
+      this.$Progress.start();
+
+      this.form
+        .post("api/property")
+        .then(() => {
+          Fire.$emit("AfterCreate");
+
+          toast({
+            type: "success",
+            title: "Berhasil membuat property baru"
+          });
+          this.$Progress.finish();
+        })
+        .catch(e => {
+          console.log(e);
+          this.$Progress.fail();
+        });
+    },
+    upload(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+
+      let limit = 1024 * 1024 * 2;
+      if (file["size"] > limit) {
+        swal({
+          type: "error",
+          title: "Oops...",
+          text: "You are uploading a large file"
+        });
+        return false;
+      }
+
+      reader.onloadend = file => {
+        this.form.gambar = reader.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    upload2(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+
+      let limit = 1024 * 1024 * 2;
+      if (file["size"] > limit) {
+        swal({
+          type: "error",
+          title: "Oops...",
+          text: "You are uploading a large file"
+        });
+        return false;
+      }
+
+      reader.onloadend = file => {
+        this.form.gambar2 = reader.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    upload3(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+
+      let limit = 1024 * 1024 * 2;
+      if (file["size"] > limit) {
+        swal({
+          type: "error",
+          title: "Oops...",
+          text: "You are uploading a large file"
+        });
+        return false;
+      }
+
+      reader.onloadend = file => {
+        this.form.gambar3 = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  },
+  created() {
+    Fire.$on("searching", () => {
+      let query = this.$parent.search;
+      axios
+        .get("api/findproperty?q=" + query)
+        .then(data => {
+          this.propertys = data.data;
+        })
+        .catch(() => {});
+    });
+    this.load();
+    Fire.$on("AfterCreate", () => {
+      this.load();
+    });
+  }
+};
+</script>
